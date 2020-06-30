@@ -50,13 +50,13 @@ function sendMessage(argv){
       number: '15129680474'
     },
     from: {
-      type: 'sms',
-      number: '12406586863'
+      number: '12406586863',
+      type: 'sms'
     },
     message: {
       content: {
         type: 'text',
-        text: 'Hello'
+        text: 'Hello 🎂'
       }
     }
   })
