@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 const https = require('https')
 const fs = require('fs')
 
@@ -6,17 +8,17 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const argv = require('yargs')
   .command({
-    command: 'nexmo balance',
-    aliases: ['bal'],
+    command: 'balance',
     desc: 'See your Vonage account balance',
     handler: getBalance
   })
   .command({
-    command: 'nexmo send',
+    command: 'send',
     desc: 'Send an SMS messgage',
     handler: sendMessage
   })
   .demandCommand(1, 'Please enter a command to continue')
+  .strict()
   .help()
   .argv
 
@@ -39,7 +41,7 @@ function sendMessage(argv){
   if (!argv.to){
     valid = false
     console.log('Please include a recipient with --to and a number')
-  } 
+  }
   if (!argv.from) {
     valid = false
     console.log('Please include a sender with --from and a number')
