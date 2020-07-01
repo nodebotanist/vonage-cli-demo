@@ -12,7 +12,7 @@ const argv = require('yargs')
     handler: getBalance
   })
   .command({
-    command: 'send [recipient] [message]',
+    command: 'nexmo send',
     desc: 'Send an SMS messgage',
     handler: sendMessage
   })
@@ -35,6 +35,22 @@ function getBalance(argv){
 }
 
 function sendMessage(argv){
+  let valid = true
+  if (!argv.to){
+    valid = false
+    console.log('Please include a recipient with --to and a number')
+  } 
+  if (!argv.from) {
+    valid = false
+    console.log('Please include a sender with --from and a number')
+  }
+  if (!argv.message) {
+    valid = false
+    console.log('Please include a message with --message and text')
+  }
+  if (!valid) {
+    return
+  }
   const key = fs.readFileSync('./private.key')
   const jti = uuid.v1()
   const iat = parseInt(Date.now() / 1000, 10)
@@ -44,22 +60,23 @@ function sendMessage(argv){
     application_id: process.env.VONAGE_APPLICATION_ID
   }, key, {algorithm: 'RS256'})
 
-  const body = JSON.stringify({
+  const body = Buffer.from(JSON.stringify({
     to: {
       type: 'sms',
-      number: '15129680474'
+      number: argv.to
     },
     from: {
-      number: '12406586863',
+      number: argv.from,
       type: 'sms'
     },
     message: {
       content: {
         type: 'text',
-        text: 'Hello 🎂'
+        text: argv.message
       }
     }
-  })
+  }))
+
   const options = {
     hostname: 'api.nexmo.com',
     path: '/v0.1/messages',
