@@ -19,7 +19,7 @@
   "homepage": "https://github.com/nodebotanist/vonage-cli-demo#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "uuid": "^8.2.0",
     "yargs": "^15.3.1"
   }
